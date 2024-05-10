@@ -1,0 +1,66 @@
+" .ideavimrc is a configuration file for ideavim plugin. it uses
+"   the same commands as the original .vimrc configuration.
+" you can find a list of commands here: https://jb.gg/h38q75
+" find more examples here: https://jb.gg/share-ideavimrc
+
+
+"" -- suggested options --
+" show a few lines of context around the cursor. note that this makes the
+" text scroll if you mouse-click near the start or end of the window.
+set scrolloff=999
+
+
+""" map leader to space ---------------------
+let mapleader=" "
+
+
+""" plugins  --------------------------------
+Plug 'preservim/nerdtree'
+Plug 'easymotion/vim-easymotion'
+Plug 'terrym/vim-multiple-cursors'
+set surround
+set commentary
+set argtextobj
+
+" do incremental searching.
+set incsearch
+
+" don't use ex mode, use q for formatting.
+map q gq
+
+" --- enable ideavim plugins https://jb.gg/ideavim-plugins
+
+" highlight copied text
+plug 'machakann/vim-highlightedyank'
+" commentary plugin
+plug 'tpope/vim-commentary'
+
+"map \b <action>(togglelinebreakpoint)
+
+"" -- map ide actions to ideavim -- https://jb.gg/abva4t
+"" map \r to the reformat code action
+"map \r <action>(reformatcode)
+
+"" map <leader>d to start debug
+"map <leader>d <action>(debug)
+
+sethandler <c-j> a: vim
+sethandler ‹c-k> a:vim
+sethandler ‹c-m> a:vim
+nnoremap <c-m> :action MoveEditorToOppositeTabGroup<CR>
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+map <leader>t <Plug>(easymotion-s)
+map <leader>j <Plug>(easymotion-f)
+map <c-n> <A-n>
+map mx <A-x>
+map mp <A-p>
+
+
+"Notes:
+"https://github.com/tpope/vim-surround
+"cs followed by ' or a selection then " ' { [ etc will replace the thing with another thing 'hello'
+"ys followed by iw or a selection then " ' { [ etc will surround the selection
+"ds will remove the outer surroundings eg ds" will remove the quotes from something
