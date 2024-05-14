@@ -17,32 +17,104 @@ let mapleader=" "
 """ plugins  --------------------------------
 Plug 'preservim/nerdtree'
 Plug 'easymotion/vim-easymotion'
-Plug 'terrym/vim-multiple-cursors'
-set surround
+Plug 'terryma/vim-multiple-cursors'
 set commentary
+set surround
 set argtextobj
+set ideaput
+set ideamarks
+set ideajoin
+set highlightedyank
 
 " do incremental searching.
-set incsearch
+set hlsearch
+set sneak
+set incsearch " Incrementally search while typing
+set ignorecase " Use smart case for searching
+set showmatch
 
 " don't use ex mode, use q for formatting.
-map q gq
+"map q gq
 
 " --- enable ideavim plugins https://jb.gg/ideavim-plugins
 
 " highlight copied text
-plug 'machakann/vim-highlightedyank'
+Plug 'machakann/vim-highlightedyank'
 " commentary plugin
-plug 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'
 
-"map \b <action>(togglelinebreakpoint)
 
-"" -- map ide actions to ideavim -- https://jb.gg/abva4t
-"" map \r to the reformat code action
-"map \r <action>(reformatcode)
+"Book mark mappings:
+"We get m followed by a capital letter of 0 through 9.j
+"T for current test
+"C for code under test
+"To get the book mark: 'T or 'C
+"To make the bookmark: mT or mC
+:map <leader>m <Action>(ShowBookmarks)
+"mark as a global mark/
+nnoremap ma mA
+nnoremap mb mB
+nnoremap mc mC
+nnoremap md mD
+nnoremap me mE
+nnoremap mf mG
+nnoremap mh mH
+nnoremap mi mI
+nnoremap mj mJ
+nnoremap mk mK
+nnoremap ml mL
+nnoremap mm mM
+nnoremap mn mN
+nnoremap mo mO
+nnoremap mp mP
+nnoremap mq mQ
+nnoremap mr mR
+nnoremap ms mS
+nnoremap mt mT
+nnoremap mu mU
+nnoremap mv mV
+nnoremap mw mW
+nnoremap mx mX
+nnoremap my mY
+nnoremap mz mZ
 
-"" map <leader>d to start debug
-"map <leader>d <action>(debug)
+"go to global marks
+nnoremap 'a `A
+nnoremap 'b `B
+nnoremap 'c `C
+nnoremap 'd `D
+nnoremap 'e `E
+nnoremap 'f `G
+nnoremap 'h `H
+nnoremap 'i `I
+nnoremap 'j `J
+nnoremap 'k `K
+nnoremap 'l `L
+nnoremap 'm `M
+nnoremap 'n `N
+nnoremap 'o `O
+nnoremap 'p `P
+nnoremap 'q `Q
+nnoremap 'r `R
+nnoremap 's `S
+nnoremap 't `T
+nnoremap 'u `U
+nnoremap 'v `V
+nnoremap 'w `W
+nnoremap 'x `X
+nnoremap 'y `Y
+nnoremap 'z `Z
+
+"This is to force myself to use hjkl instead of the arrow keys this will stop them from working in the editor:
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
+
+inoremap <Up> <nop>
+inoremap <Down> <nop>
+inoremap <Left> <nop>
+inoremap <Right> <nop>
 
 sethandler <c-j> a: vim
 sethandler ‹c-k> a:vim
@@ -53,11 +125,54 @@ nnoremap <c-l> <c-w>l
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 map <leader>t <Plug>(easymotion-s)
-map <leader>j <Plug>(easymotion-f)
+map <leader>f <Plug>(easymotion-f)
 map <c-n> <A-n>
 map mx <A-x>
 map mp <A-p>
+:map <leader>b <Action>(ToggleLineBreakpoint)
+:map <leader>r <Action>(RunContextGroup)
+:map <leader>n <Action>(NextDiff)
+:map <leader>d <Action>(ShowDiff)
+:map <A-k> <Action>(EditorCloneCaretAbove)
+:map <A-j> <Action>(EditorCloneCaretBelow)
+:map <A-j> <Action>(EditorCloneCaretBelow)
+:map <A-j> <Action>(EditorCloneCaretBelow)
+:map <leader>s <Action>(osmedile.intellij.stringmanip.swap.SwapAction)
+:map <leader>h <Action>(Back)
+:map <leader>l <Action>(Forward)
 
+
+" Harpoon keybindings
+nmap <leader>q :action SetHarpoon1<cr>
+nmap <leader>w :action SetHarpoon2<cr>
+nmap <leader>e :action SetHarpoon3<cr>
+
+nmap <leader>1 :action GotoHarpoon1<cr>
+nmap <leader>2 :action GotoHarpoon2<cr>
+nmap <leader>3 :action GotoHarpoon3<cr>
+
+nmap <C-e> :action ShowHarpoon<cr>
+nmap <C-a> :action AddToHarpoon<cr>
+
+" Makes it easy to move around without having to reach for the number row.
+map H ^
+map L $
+"map J }
+"map K {
+
+" don't yank to default register when changing something
+nnoremap c "xc
+xnoremap c "xc
+
+:map <leader>sw <Action>(SurroundWith)
+"The below allows ctrl j or k to move a line or multiple lines in visual mode up and down.
+nmap <C-k> <Action>(MoveLineUp)
+nmap <C-j> <Action>(MoveLineDown)
+vnoremap <C-j> :m'>+<CR>gv=gv
+vnoremap <C-k> :m-2<CR>gv=gv
+"This is for moving from one method like a def or class
+map K <Action>(MethodUp)
+map J <Action>(MethodDown)
 
 "Notes:
 "https://github.com/tpope/vim-surround
