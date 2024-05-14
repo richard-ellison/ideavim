@@ -25,6 +25,8 @@ set ideaput
 set ideamarks
 set ideajoin
 set highlightedyank
+set which-key
+set timeoutlen=5000
 
 " do incremental searching.
 set hlsearch
