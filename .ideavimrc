@@ -1,4 +1,4 @@
-" .ideavimrc is a configuration file for ideavim plugin. it uses
+" h h.ideavimrc is a configuration file for ideavim plugin. it uses
 "   the same commands as the original .vimrc configuration.
 " you can find a list of commands here: https://jb.gg/h38q75
 " find more examples here: https://jb.gg/share-ideavimrc
@@ -7,11 +7,15 @@
 "" -- suggested options --
 " show a few lines of context around the cursor. note that this makes the
 " text scroll if you mouse-click near the start or end of the window.
-set scrolloff=999
+set scrolloff=5
 
 
 """ map leader to space ---------------------
 let mapleader=" "
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:qs_accepted_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+let g:qs_primary_color = '#ff0000'
+let g:qs_secondary_color = '#ff00ff'
 
 
 """ plugins  --------------------------------
@@ -31,20 +35,22 @@ set timeoutlen=5000
 " do incremental searching.
 set hlsearch
 set sneak
+set quickscope
 set incsearch " Incrementally search while typing
 set ignorecase " Use smart case for searching
 set showmatch
+"This is used to not consider _ as part of a word
+"This makes function replacing harder but function renaming easier.
+"set iskeyword-=_
 
 " don't use ex mode, use q for formatting.
 "map q gq
 
 " --- enable ideavim plugins https://jb.gg/ideavim-plugins
-
 " highlight copied text
 Plug 'machakann/vim-highlightedyank'
 " commentary plugin
 Plug 'tpope/vim-commentary'
-
 
 "Book mark mappings:
 "We get m followed by a capital letter of 0 through 9.j
@@ -127,31 +133,42 @@ nnoremap <c-l> <c-w>l
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 map <leader>t <Plug>(easymotion-s)
-map <leader>f <Plug>(easymotion-f)
+"map <leader>f <Plug>(easymotion-f)
 map <c-n> <A-n>
 map mx <A-x>
 map mp <A-p>
 :map <leader>b <Action>(ToggleLineBreakpoint)
 :map <leader>r <Action>(RunContextGroup)
-:map <leader>n <Action>(NextDiff)
-:map <leader>d <Action>(ShowDiff)
+:map <leader>n <Action>(Resume)
+:map <A-j> <Action>(EditorCloneCaretBelow)
 :map <A-k> <Action>(EditorCloneCaretAbove)
-:map <A-j> <Action>(EditorCloneCaretBelow)
-:map <A-j> <Action>(EditorCloneCaretBelow)
-:map <A-j> <Action>(EditorCloneCaretBelow)
 :map <leader>s <Action>(osmedile.intellij.stringmanip.swap.SwapAction)
 :map <leader>h <Action>(Back)
 :map <leader>l <Action>(Forward)
+:map <leader>i <Action>(ShowIntentionActions)
+:map <leader>e <Action>(RecentFiles)
 
+"split windows
+:map <leader>vu <Action>(Unsplit)
+:map <leader>vv <Action>(SplitVertically)
+:map <leader>vh <Action>(SplitHorizontally)
+
+"This is not ideal, when in these windows I cannot exit then as I am not in the editor.
+"Still have to use command hotkeys to close them down.
+:map <leader>1 <Action>(ActivateProjectToolWindow)
+:map <leader>2 <Action>(ActivateDatabaseToolWindow)
+:map <leader>3 <Action>(ActivateTerminalToolWindow)
 
 " Harpoon keybindings
-nmap <leader>q :action SetHarpoon1<cr>
-nmap <leader>w :action SetHarpoon2<cr>
-nmap <leader>e :action SetHarpoon3<cr>
+nmap <leader><leader>a :action SetHarpoon1<cr>
+nmap <leader><leader>s :action SetHarpoon2<cr>
+nmap <leader><leader>d :action SetHarpoon3<cr>
+nmap <leader><leader>f :action SetHarpoon4<cr>
 
-nmap <leader>1 :action GotoHarpoon1<cr>
-nmap <leader>2 :action GotoHarpoon2<cr>
-nmap <leader>3 :action GotoHarpoon3<cr>
+nmap <leader>a :action GotoHarpoon1<cr>
+nmap <leader>s :action GotoHarpoon2<cr>
+nmap <leader>d :action GotoHarpoon3<cr>
+nmap <leader>f :action GotoHarpoon4<cr>
 
 nmap <C-e> :action ShowHarpoon<cr>
 nmap <C-a> :action AddToHarpoon<cr>
@@ -159,25 +176,31 @@ nmap <C-a> :action AddToHarpoon<cr>
 " Makes it easy to move around without having to reach for the number row.
 map H ^
 map L $
-"map J }
-"map K {
+map J }
+map K {
 
 " don't yank to default register when changing something
 nnoremap c "xc
 xnoremap c "xc
+nnoremap p "0p
+nnoremap p "0p
 
-:map <leader>sw <Action>(SurroundWith)
 "The below allows ctrl j or k to move a line or multiple lines in visual mode up and down.
 nmap <C-k> <Action>(MoveLineUp)
 nmap <C-j> <Action>(MoveLineDown)
 vnoremap <C-j> :m'>+<CR>gv=gv
 vnoremap <C-k> :m-2<CR>gv=gv
 "This is for moving from one method like a def or class
-map K <Action>(MethodUp)
-map J <Action>(MethodDown)
+"map K <Action>(MethodUp)
+"map J <Action>(MethodDown)
+
+map <Leader>pf <action>(com.mituuz.fuzzier.Fuzzier)
+map <Leader>gf <action>(com.mituuz.fuzzier.FuzzierVCS)
+
+
 
 "Notes:
 "https://github.com/tpope/vim-surround
 "cs followed by ' or a selection then " ' { [ etc will replace the thing with another thing 'hello'
-"ys followed by iw or a selection then " ' { [ etc will surround the selection
 "ds will remove the outer surroundings eg ds" will remove the quotes from something
+"ys followed by iw or a selection then " ' { [ etc will surround the selection
